@@ -33,19 +33,8 @@ export default function MobileBottomNav() {
 
       {/* Nav bar */}
       <nav className="glass-panel flex items-center px-1">
-        {NAV_ITEMS.map(({ id, label, icon: Icon }, index) => {
-          const isActive = activePage === id;
-          // Add empty cell in center for FAB space
-          const items = [
-            ...NAV_ITEMS.slice(0, 1),
-            null,
-            ...NAV_ITEMS.slice(1),
-          ];
-          return null; // handled below
-        })}
-
         {/* Render with FAB spacer in middle */}
-        {[NAV_ITEMS[0], null, ...NAV_ITEMS.slice(1)].map((item, i) => {
+        {[NAV_ITEMS[0], NAV_ITEMS[1], null, NAV_ITEMS[2]].map((item, i) => {
           if (item === null) {
             // Spacer for FAB
             return <div key="fab-spacer" className="flex-1" />;
