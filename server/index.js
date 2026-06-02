@@ -5,6 +5,8 @@ import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import { connectDB } from './config/db.js';
 import transactionRoutes from './routes/transactions.js';
 import settingsRoutes from './routes/settings.js';
@@ -50,6 +52,23 @@ app.get('/api/health', async (_req, res) => {
 
 app.use('/api/transactions', transactionRoutes);
 app.use('/api/settings',     settingsRoutes);
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Serve static assets in production
+if (process.env.NODE_ENV === 'production') {
+  const distPath = path.join(__dirname, '../dist');
+  app.use(express.static(distPath));
+
+  // Serve frontend routes
+  app.get('*', (req, res, next) => {
+    if (req.path.startsWith('/api')) {
+      return next();
+    }
+    res.sendFile(path.join(distPath, 'index.html'));
+  });
+}
 
 // ─── 404 handler ──────────────────────────────────────────────────────────
 app.use((req, res) => {
