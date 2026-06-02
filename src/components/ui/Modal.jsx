@@ -1,5 +1,6 @@
 /** Modal.jsx — Accessible overlay modal with focus trap */
 import { useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { X } from 'lucide-react';
 
 export default function Modal({ isOpen, onClose, title, children, size = 'md' }) {
@@ -28,13 +29,13 @@ export default function Modal({ isOpen, onClose, title, children, size = 'md' })
     xl: 'max-w-3xl',
   };
 
-  return (
+  return createPortal(
     <div
       ref={overlayRef}
       role="dialog"
       aria-modal="true"
       aria-label={title}
-      className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4 animate-fade-in"
+      className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-4 animate-fade-in"
     >
       {/* Backdrop */}
       <div
@@ -64,6 +65,7 @@ export default function Modal({ isOpen, onClose, title, children, size = 'md' })
         )}
         <div className="p-6">{children}</div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
