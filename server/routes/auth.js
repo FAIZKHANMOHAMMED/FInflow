@@ -4,7 +4,6 @@ import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
 
 const router = Router();
-const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 const JWT_SECRET = process.env.JWT_SECRET || 'fallback_secret_do_not_use_in_prod';
 
 // Cookie options for JWT
@@ -22,10 +21,14 @@ router.post('/google', async (req, res) => {
     const { credential } = req.body;
     if (!credential) return res.status(400).json({ success: false, error: 'No credential provided' });
 
+    const clientId = process.env.GOOGLE_CLIENT_ID;
+    console.log('Verifying token with Client ID:', clientId?.slice(0, 30) + '...');
+
     // 1. Verify Google token
+    const client = new OAuth2Client(clientId);
     const ticket = await client.verifyIdToken({
       idToken: credential,
-      audience: process.env.GOOGLE_CLIENT_ID,
+      audience: clientId,
     });
     const payload = ticket.getPayload();
     
@@ -63,8 +66,8 @@ router.post('/google', async (req, res) => {
     
     res.json({ success: true, data: { id: user.id, email: user.email, name: user.name, picture: user.picture } });
   } catch (err) {
-    console.error('Auth Error:', err);
-    res.status(401).json({ success: false, error: 'Authentication failed' });
+    console.error('Auth Error:', err.message);
+    res.status(401).json({ success: false, error: 'Authentication failed', detail: err.message });
   }
 });
 
