@@ -10,9 +10,9 @@ const router = Router();
 // GET /api/settings
 router.get('/', async (req, res) => {
   try {
-    let settings = await Settings.findOne({ key: 'default' });
+    let settings = await Settings.findOne({ userId: req.userId });
     if (!settings) {
-      settings = await Settings.create({ key: 'default' });
+      settings = await Settings.create({ userId: req.userId });
     }
     res.json({ success: true, data: { baseCurrency: settings.baseCurrency, theme: settings.theme } });
   } catch (err) {
@@ -25,7 +25,7 @@ router.put('/', async (req, res) => {
   try {
     const { baseCurrency, theme } = req.body;
     const settings = await Settings.findOneAndUpdate(
-      { key: 'default' },
+      { userId: req.userId },
       { baseCurrency, theme },
       { returnDocument: 'after', upsert: true, runValidators: true }
     );

@@ -1,9 +1,10 @@
 /** Sidebar.jsx — Desktop left navigation */
 import {
   LayoutDashboard, List, Settings, PlusCircle,
-  TrendingUp, Wallet
+  TrendingUp, Wallet, LogOut
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
+import { useAuth } from '../../context/AuthContext';
 import ThemeToggle from '../ui/ThemeToggle';
 
 const NAV_ITEMS = [
@@ -15,6 +16,7 @@ const NAV_ITEMS = [
 export default function Sidebar() {
   const { state, dispatch } = useApp();
   const activePage = state.ui.activePage;
+  const { user, logout } = useAuth();
 
   return (
     <aside className="hidden md:flex flex-col w-60 shrink-0 h-screen sticky top-0
@@ -72,9 +74,33 @@ export default function Sidebar() {
       {/* Footer */}
       <div className="flex flex-col gap-2 pt-4 border-t border-surface-100 dark:border-surface-800">
         <ThemeToggle />
-        <div className="px-2 text-[10px] text-surface-300 dark:text-surface-600 font-medium">
-          v2.0 · All data stored locally
-        </div>
+
+        {/* User info + logout */}
+        {user && (
+          <div className="flex items-center gap-2 px-2 py-2 rounded-xl
+                          bg-surface-50 dark:bg-surface-800/60 mt-1">
+            {user.picture
+              ? <img src={user.picture} alt={user.name}
+                     className="w-7 h-7 rounded-full ring-2 ring-violet-400/50 shrink-0" />
+              : <div className="w-7 h-7 rounded-full bg-violet-500 flex items-center justify-center
+                                text-white text-xs font-bold shrink-0">
+                  {user.name?.[0]}
+                </div>
+            }
+            <div className="flex-1 min-w-0">
+              <p className="text-xs font-semibold text-surface-800 dark:text-surface-100 truncate">{user.name}</p>
+            </div>
+            <button
+              onClick={logout}
+              title="Sign out"
+              className="p-1.5 rounded-lg text-surface-400 hover:text-red-500
+                         hover:bg-red-50 dark:hover:bg-red-900/20
+                         transition-colors duration-150 shrink-0"
+            >
+              <LogOut size={14} />
+            </button>
+          </div>
+        )}
       </div>
     </aside>
   );

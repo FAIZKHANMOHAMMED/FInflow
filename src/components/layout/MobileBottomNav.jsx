@@ -1,6 +1,7 @@
 /** MobileBottomNav.jsx — Mobile sticky bottom navigation + FAB */
-import { LayoutDashboard, List, Settings, Plus } from 'lucide-react';
+import { LayoutDashboard, List, Settings, Plus, LogOut } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
+import { useAuth } from '../../context/AuthContext';
 
 const NAV_ITEMS = [
   { id: 'dashboard',    label: 'Dashboard',    icon: LayoutDashboard },
@@ -11,6 +12,7 @@ const NAV_ITEMS = [
 export default function MobileBottomNav() {
   const { state, dispatch } = useApp();
   const activePage = state.ui.activePage;
+  const { user, logout } = useAuth();
 
   return (
     <div className="md:hidden fixed bottom-0 left-0 right-0 z-40">
@@ -67,6 +69,18 @@ export default function MobileBottomNav() {
             </button>
           );
         })}
+
+        {/* Logout button */}
+        <button
+          onClick={logout}
+          className="flex-1 flex flex-col items-center justify-center gap-1
+                     py-3 px-1 transition-all duration-150
+                     text-surface-400 dark:text-surface-500
+                     hover:text-red-500 active:text-red-600"
+        >
+          <LogOut size={22} strokeWidth={1.8} />
+          <span className="text-[10px] font-semibold opacity-70">Sign out</span>
+        </button>
       </nav>
     </div>
   );
