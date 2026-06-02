@@ -36,8 +36,7 @@ export default function TransactionItem({ transaction: t }) {
       <div className={`group rounded-2xl border border-surface-100 dark:border-surface-700/60
                       glass-panel
                       hover:border-surface-200 dark:hover:border-surface-600
-                      hover:shadow-md transition-all duration-200 overflow-hidden
-                      ${isDeleting ? 'opacity-50 pointer-events-none' : ''}`}>
+                      hover:shadow-md transition-all duration-200 overflow-hidden`}>
 
         {/* Main row */}
         <div className="flex items-center gap-3 px-4 py-3.5">
