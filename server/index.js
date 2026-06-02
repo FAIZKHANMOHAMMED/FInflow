@@ -21,6 +21,8 @@ const PORT = process.env.PORT || 5000;
 // ─── Security & Middleware ─────────────────────────────────────────────────
 app.use(helmet({
   contentSecurityPolicy: false, // Vite handles CSP for the SPA
+  crossOriginOpenerPolicy: { policy: 'same-origin-allow-popups' }, // Needed for Google Auth popup
+  crossOriginEmbedderPolicy: false,
 }));
 
 // CORS — allow Vite dev server origin in development
