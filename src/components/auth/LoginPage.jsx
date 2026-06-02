@@ -17,8 +17,8 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 px-4">
-      <div className="max-w-md w-full space-y-8 p-8 bg-white dark:bg-gray-800 rounded-2xl shadow-xl">
+    <div className="min-h-screen flex items-center justify-center px-4">
+      <div className="glass-panel max-w-md w-full space-y-8 p-8">
         <div className="text-center">
           <div className="mx-auto w-16 h-16 bg-blue-100 dark:bg-blue-900/30 rounded-2xl flex items-center justify-center mb-6 shadow-sm">
             <Wallet className="h-8 w-8 text-blue-600 dark:text-blue-400" />

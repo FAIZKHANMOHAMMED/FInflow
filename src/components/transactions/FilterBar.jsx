@@ -8,8 +8,8 @@ import { CATEGORIES, PAYMENT_METHODS } from '../../utils/categories';
 import { todayDateString } from '../../utils/dates';
 
 const SELECT_CLS = `
-  px-3 py-2 rounded-xl border border-surface-200 dark:border-surface-700
-  bg-white dark:bg-surface-800
+  px-3 py-2 rounded-xl border border-surface-200/50 dark:border-surface-700/50
+  bg-white/50 dark:bg-surface-900/50 backdrop-blur-sm
   text-xs font-semibold text-surface-700 dark:text-surface-300
   focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-500
   transition-all cursor-pointer
@@ -56,7 +56,7 @@ export default function FilterBar({ filters, updateFilter, resetFilters, setDate
             value={filters.search}
             onChange={(e) => updateFilter('search', e.target.value)}
             placeholder="Search description, tags, amount…"
-            className="input-base pl-9 text-sm"
+            className="w-full pl-9 pr-3 py-2 text-sm rounded-xl bg-white/50 dark:bg-surface-900/50 backdrop-blur-sm border border-surface-200/50 dark:border-surface-700/50 text-surface-900 dark:text-surface-100 placeholder-surface-400 focus:outline-none focus:ring-2 focus:ring-violet-500/40 focus:border-violet-500/50 transition-all duration-150"
           />
           {filters.search && (
             <button
@@ -86,8 +86,8 @@ export default function FilterBar({ filters, updateFilter, resetFilters, setDate
           className={`
             flex items-center gap-2 px-3 py-2 rounded-xl border text-xs font-semibold transition-all
             ${showAdvanced
-              ? 'border-violet-500 bg-violet-50 dark:bg-violet-950/40 text-violet-700 dark:text-violet-400'
-              : 'border-surface-200 dark:border-surface-700 text-surface-600 dark:text-surface-400 hover:border-surface-300 bg-white dark:bg-surface-800'
+              ? 'border-violet-500 bg-violet-50/50 dark:bg-violet-950/40 text-violet-700 dark:text-violet-400'
+              : 'border-surface-200/50 dark:border-surface-700/50 text-surface-600 dark:text-surface-400 hover:border-surface-300 bg-white/50 dark:bg-surface-800/50'
             }
           `}
         >
@@ -100,9 +100,9 @@ export default function FilterBar({ filters, updateFilter, resetFilters, setDate
         {isFiltered && (
           <button
             onClick={resetFilters}
-            className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-rose-200 dark:border-rose-800
+            className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-rose-200/50 dark:border-rose-800/50
                        text-xs font-semibold text-rose-500 dark:text-rose-400
-                       hover:bg-rose-50 dark:hover:bg-rose-950/40 transition-all bg-white dark:bg-surface-800"
+                       hover:bg-rose-50/50 dark:hover:bg-rose-950/40 transition-all bg-white/50 dark:bg-surface-800/50"
           >
             <RotateCcw size={12} /> Reset
           </button>
@@ -120,7 +120,7 @@ export default function FilterBar({ filters, updateFilter, resetFilters, setDate
               px-3 py-1.5 rounded-full text-[11px] font-bold transition-all border
               ${activePreset === key
                 ? 'bg-violet-600 text-white border-violet-600 shadow-md shadow-violet-500/30'
-                : 'bg-white dark:bg-surface-800 border-surface-200 dark:border-surface-700 text-surface-500 dark:text-surface-400 hover:border-violet-400 hover:text-violet-600 dark:hover:text-violet-400'
+                : 'bg-white/50 dark:bg-surface-800/50 border-surface-200/50 dark:border-surface-700/50 text-surface-500 dark:text-surface-400 hover:border-violet-400 hover:text-violet-600 dark:hover:text-violet-400'
               }
             `}
           >

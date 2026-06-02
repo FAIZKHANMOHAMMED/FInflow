@@ -15,26 +15,24 @@ export default function MobileBottomNav() {
   const { user, logout } = useAuth();
 
   return (
-    <div className="md:hidden fixed bottom-0 left-0 right-0 z-40">
+    <div className="md:hidden fixed bottom-4 left-4 right-4 z-40">
       {/* FAB — floating add button */}
       <button
         onClick={() => dispatch({ type: 'OPEN_FORM' })}
-        className="absolute -top-6 left-1/2 -translate-x-1/2
+        className="absolute -top-8 left-1/2 -translate-x-1/2
                    w-14 h-14 rounded-full
-                   bg-gradient-to-br from-violet-600 to-violet-500
-                   shadow-2xl shadow-violet-500/40
+                   bg-gradient-to-br from-violet-500 to-violet-700
+                   shadow-[0_8px_20px_rgba(139,92,246,0.4)]
                    flex items-center justify-center
-                   text-white transition-all duration-200
-                   hover:scale-110 active:scale-95 border-4 border-white dark:border-surface-950"
+                   text-white transition-all duration-300
+                   hover:scale-110 active:scale-95 border border-violet-400/50"
         aria-label="Add transaction"
       >
         <Plus size={24} strokeWidth={2.5} />
       </button>
 
       {/* Nav bar */}
-      <nav className="flex items-center bg-white dark:bg-surface-900
-                      border-t border-surface-200 dark:border-surface-800
-                      shadow-[0_-4px_20px_rgba(0,0,0,0.08)]">
+      <nav className="glass-panel flex items-center px-1">
         {NAV_ITEMS.map(({ id, label, icon: Icon }, index) => {
           const isActive = activePage === id;
           // Add empty cell in center for FAB space

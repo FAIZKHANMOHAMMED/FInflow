@@ -42,14 +42,14 @@ export default function ApiStatusBanner({ status }) {
 
   return (
     <div className={`
-      fixed top-0 left-0 right-0 z-[200]
+      fixed top-2 left-1/2 -translate-x-1/2 z-[200]
       flex items-center justify-center gap-2
-      px-4 py-2 text-xs font-semibold text-white
-      border-b backdrop-blur-md
+      px-4 py-2 text-xs font-bold text-white
+      rounded-full shadow-lg border backdrop-blur-xl
       ${cfg.bg}
       animate-slide-down
     `}>
-      <Icon size={13} className={cfg.iconCls} />
+      <Icon size={14} className={cfg.iconCls} />
       {cfg.text}
     </div>
   );

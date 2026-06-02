@@ -121,18 +121,18 @@ function AuthenticatedApp() {
   if (isLoadingData) return <LoadingScreen />;
 
   return (
-    <div className="flex min-h-screen bg-surface-50 dark:bg-surface-950">
+    <div className="flex min-h-screen relative z-0">
       {/* API status banner — shows when offline/connecting/error */}
-      <ApiStatusBanner status={apiStatus} />
+        <ApiStatusBanner status={apiStatus} />
 
-      {/* Desktop sidebar */}
-      <Sidebar />
+        {/* Desktop sidebar */}
+        <Sidebar />
 
-      {/* Main content — push down when banner is visible */}
-      <main className={`
-        flex-1 p-4 sm:p-6 lg:p-8 pb-24 md:pb-8 overflow-x-hidden
-        ${apiStatus !== 'online' ? 'pt-12 sm:pt-14' : ''}
-      `}>
+        {/* Main content — push down when banner is visible */}
+        <main className={`
+          flex-1 p-4 sm:p-6 lg:p-8 pb-24 md:pb-8 overflow-x-hidden
+          ${apiStatus !== 'online' ? 'pt-12 sm:pt-14' : ''}
+        `}>
         <div className="max-w-5xl mx-auto">
           {activePage === 'dashboard'    && <DashboardPage />}
           {activePage === 'transactions' && <TransactionsPage />}
@@ -157,14 +157,26 @@ function AuthenticatedApp() {
 export default function App() {
   const { isAuthenticated, isLoadingAuth } = useAuth();
 
-  if (isLoadingAuth) return <LoadingScreen />;
-
-  if (!isAuthenticated) return <LoginPage />;
-
-  // Only mount AppProvider (and its data-fetching) once the user is authenticated
   return (
-    <AppProvider>
-      <AuthenticatedApp />
-    </AppProvider>
+    <>
+      {/* Global Animated Mesh Background */}
+      <div className="mesh-bg">
+        <div className="mesh-blob blob-1" />
+        <div className="mesh-blob blob-2" />
+        <div className="mesh-blob blob-3" />
+      </div>
+
+      <div className="relative z-0">
+        {isLoadingAuth ? (
+          <LoadingScreen />
+        ) : !isAuthenticated ? (
+          <LoginPage />
+        ) : (
+          <AppProvider>
+            <AuthenticatedApp />
+          </AppProvider>
+        )}
+      </div>
+    </>
   );
 }

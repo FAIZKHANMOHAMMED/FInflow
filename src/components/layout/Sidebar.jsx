@@ -19,11 +19,9 @@ export default function Sidebar() {
   const { user, logout } = useAuth();
 
   return (
-    <aside className="hidden md:flex flex-col w-60 shrink-0 h-screen sticky top-0
-                      bg-white dark:bg-surface-900
-                      border-r border-surface-200 dark:border-surface-800
-                      py-6 px-4 gap-2">
-      {/* Logo */}
+    <div className="hidden md:flex flex-col w-64 shrink-0 h-screen sticky top-0 p-4">
+      <aside className="glass-panel flex-1 flex flex-col py-6 px-4 gap-2 h-full">
+        {/* Logo */}
       <div className="flex items-center gap-3 px-2 mb-6">
         <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-violet-600 to-violet-400
                         flex items-center justify-center shadow-lg shadow-violet-500/30">
@@ -103,5 +101,6 @@ export default function Sidebar() {
         )}
       </div>
     </aside>
+    </div>
   );
 }
