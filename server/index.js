@@ -64,7 +64,7 @@ if (fs.existsSync(distPath)) {
   app.use(express.static(distPath));
 
   // Serve frontend routes (React SPA fallback)
-  app.get('*', (req, res, next) => {
+  app.get('*all', (req, res, next) => {
     if (req.path.startsWith('/api')) {
       return next();
     }
