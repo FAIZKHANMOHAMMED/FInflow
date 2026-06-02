@@ -6,6 +6,7 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import path from 'path';
+import fs from 'fs';
 import { fileURLToPath } from 'url';
 import { connectDB } from './config/db.js';
 import transactionRoutes from './routes/transactions.js';
@@ -56,18 +57,21 @@ app.use('/api/settings',     settingsRoutes);
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Serve static assets in production
-if (process.env.NODE_ENV === 'production') {
-  const distPath = path.join(__dirname, '../dist');
+// Serve static assets (Vite production build) if available
+const distPath = path.join(__dirname, '../dist');
+if (fs.existsSync(distPath)) {
+  console.log(`📂 Serving static frontend assets from: ${distPath}`);
   app.use(express.static(distPath));
 
-  // Serve frontend routes
+  // Serve frontend routes (React SPA fallback)
   app.get('*', (req, res, next) => {
     if (req.path.startsWith('/api')) {
       return next();
     }
     res.sendFile(path.join(distPath, 'index.html'));
   });
+} else {
+  console.warn(`⚠️ Warning: Static frontend build folder not found at: ${distPath}`);
 }
 
 // ─── 404 handler ──────────────────────────────────────────────────────────
