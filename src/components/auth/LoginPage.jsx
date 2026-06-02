@@ -3,18 +3,17 @@ import { useAuth } from '../../context/AuthContext';
 import { Wallet } from 'lucide-react';
 
 export default function LoginPage() {
-  const { loginWithCredential } = useAuth();
+  const { loginWithCredential, isLoggingIn } = useAuth();
 
   const handleSuccess = async (credentialResponse) => {
     const res = await loginWithCredential(credentialResponse.credential);
     if (!res.success) {
-      alert(res.error || 'Login failed');
+      alert(res.error || 'Login failed. Please try again.');
     }
   };
 
   const handleError = () => {
     console.error('Google Login Failed');
-    alert('Google Login Failed');
   };
 
   return (
@@ -32,16 +31,24 @@ export default function LoginPage() {
           </p>
         </div>
 
-        <div className="flex justify-center">
-          <GoogleLogin
-            onSuccess={handleSuccess}
-            onError={handleError}
-            theme="filled_blue"
-            size="large"
-            shape="pill"
-          />
-        </div>
-        
+        {/* Show spinner while verifying with backend — Google button stays mounted */}
+        {isLoggingIn ? (
+          <div className="flex flex-col items-center gap-3 py-4">
+            <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
+            <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">Signing you in…</p>
+          </div>
+        ) : (
+          <div className="flex justify-center">
+            <GoogleLogin
+              onSuccess={handleSuccess}
+              onError={handleError}
+              theme="filled_blue"
+              size="large"
+              shape="pill"
+            />
+          </div>
+        )}
+
         <div className="mt-8 text-center text-xs text-gray-400 dark:text-gray-500">
           Secure authentication provided by Google.
         </div>
