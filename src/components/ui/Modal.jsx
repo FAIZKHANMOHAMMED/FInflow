@@ -45,7 +45,7 @@ export default function Modal({ isOpen, onClose, title, children, size = 'md' })
 
       {/* Panel */}
       <div className={`
-        relative w-full ${sizeClasses[size]} max-h-[95vh] overflow-y-auto
+        relative w-full ${sizeClasses[size]} max-h-[85dvh] overflow-y-auto overscroll-contain
         glass-panel shadow-2xl
         animate-slide-up
       `}>
