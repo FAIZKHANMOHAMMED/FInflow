@@ -16,23 +16,8 @@ export default function MobileBottomNav() {
 
   return (
     <div className="md:hidden fixed bottom-4 left-4 right-4 z-40">
-      {/* FAB — floating add button */}
-      <button
-        onClick={() => dispatch({ type: 'OPEN_FORM' })}
-        className="absolute -top-8 left-1/2 -translate-x-1/2
-                   w-14 h-14 rounded-full
-                   bg-gradient-to-br from-violet-500 to-violet-700
-                   shadow-[0_8px_20px_rgba(139,92,246,0.4)]
-                   flex items-center justify-center
-                   text-white transition-all duration-300
-                   hover:scale-110 active:scale-95 border border-violet-400/50"
-        aria-label="Add transaction"
-      >
-        <Plus size={24} strokeWidth={2.5} />
-      </button>
-
       {/* Nav bar */}
-      <nav className="glass-panel flex items-center px-1">
+      <nav className="glass-panel relative z-0 flex items-center px-1">
         {/* Render with FAB spacer in middle */}
         {[NAV_ITEMS[0], NAV_ITEMS[1], null, NAV_ITEMS[2]].map((item, i) => {
           if (item === null) {
@@ -69,6 +54,21 @@ export default function MobileBottomNav() {
           <span className="text-[10px] font-semibold opacity-70">Sign out</span>
         </button>
       </nav>
+
+      {/* FAB — floating add button */}
+      <button
+        onClick={() => dispatch({ type: 'OPEN_FORM' })}
+        className="absolute -top-8 left-1/2 -translate-x-1/2 z-10
+                   w-14 h-14 rounded-full
+                   bg-gradient-to-br from-violet-500 to-violet-700
+                   shadow-[0_8px_20px_rgba(139,92,246,0.4)]
+                   flex items-center justify-center
+                   text-white transition-all duration-300
+                   hover:scale-110 active:scale-95 border border-violet-400/50"
+        aria-label="Add transaction"
+      >
+        <Plus size={24} strokeWidth={2.5} />
+      </button>
     </div>
   );
 }
