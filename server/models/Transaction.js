@@ -7,6 +7,12 @@ import mongoose from 'mongoose';
 
 const TransactionSchema = new mongoose.Schema(
   {
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      index: true,
+      // Temporarily not strictly required until we assign orphaned data
+    },
     // Client-generated UUID — used for optimistic UI deduplication
     clientId: {
       type: String,
@@ -89,10 +95,10 @@ const TransactionSchema = new mongoose.Schema(
   }
 );
 
-// Index for fast sorting / filtering by date
-TransactionSchema.index({ date: -1 });
-TransactionSchema.index({ type: 1, date: -1 });
-TransactionSchema.index({ category: 1 });
+// Index for fast sorting / filtering by date within a user's scope
+TransactionSchema.index({ userId: 1, date: -1 });
+TransactionSchema.index({ userId: 1, type: 1, date: -1 });
+TransactionSchema.index({ userId: 1, category: 1 });
 
 // Virtual: expose clientId as "id" so frontend doesn't need to change
 TransactionSchema.virtual('id').get(function () {

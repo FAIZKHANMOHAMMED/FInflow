@@ -108,13 +108,16 @@ function AddButton() {
   );
 }
 
-// ─── App Shell ────────────────────────────────────────────────────────────────
+import LoginPage from './components/auth/LoginPage';
+import { useAuth } from './context/AuthContext';
+import { AppProvider } from './context/AppContext';
 
-export default function App() {
+// ─── Authenticated App Shell (only mounts AFTER login) ───────────────────────
+
+function AuthenticatedApp() {
   const { state } = useApp();
   const { activePage, apiStatus, isLoadingData } = state.ui;
 
-  // Show loading screen on initial data fetch
   if (isLoadingData) return <LoadingScreen />;
 
   return (
@@ -146,5 +149,22 @@ export default function App() {
       {/* Toast notifications */}
       <Toast />
     </div>
+  );
+}
+
+// ─── App Root (handles auth gate) ────────────────────────────────────────────
+
+export default function App() {
+  const { isAuthenticated, isLoadingAuth } = useAuth();
+
+  if (isLoadingAuth) return <LoadingScreen />;
+
+  if (!isAuthenticated) return <LoginPage />;
+
+  // Only mount AppProvider (and its data-fetching) once the user is authenticated
+  return (
+    <AppProvider>
+      <AuthenticatedApp />
+    </AppProvider>
   );
 }

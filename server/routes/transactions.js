@@ -35,7 +35,7 @@ router.get('/', async (req, res) => {
   try {
     const { type, category, paymentMethod, dateFrom, dateTo, search } = req.query;
 
-    const query = {};
+    const query = { userId: req.userId };
 
     if (type && type !== 'all')             query.type            = type;
     if (category && category !== 'all')     query.category        = category;
@@ -84,7 +84,7 @@ router.get('/', async (req, res) => {
 // ─── GET /api/transactions/:id ─────────────────────────────────────────────
 router.get('/:id', async (req, res) => {
   try {
-    const doc = await Transaction.findOne({ clientId: req.params.id });
+    const doc = await Transaction.findOne({ clientId: req.params.id, userId: req.userId });
     if (!doc) return res.status(404).json({ success: false, error: 'Transaction not found' });
     res.json({ success: true, data: toClient(doc) });
   } catch (err) {
@@ -101,8 +101,8 @@ router.post('/', async (req, res) => {
 
     // Upsert: if same clientId comes in twice (duplicate request), update gracefully
     const doc = await Transaction.findOneAndUpdate(
-      { clientId: id },
-      { clientId: id, ...rest },
+      { clientId: id, userId: req.userId },
+      { clientId: id, userId: req.userId, ...rest },
       { returnDocument: 'after', upsert: true, runValidators: true }
     );
 
@@ -110,7 +110,7 @@ router.post('/', async (req, res) => {
   } catch (err) {
     // Duplicate key — already exists, return 200
     if (err.code === 11000) {
-      const doc = await Transaction.findOne({ clientId: req.body.id });
+      const doc = await Transaction.findOne({ clientId: req.body.id, userId: req.userId });
       return res.status(200).json({ success: true, data: toClient(doc) });
     }
     console.error('POST /transactions error:', err);
@@ -124,7 +124,7 @@ router.put('/:id', async (req, res) => {
     const { id, ...rest } = req.body;
 
     const doc = await Transaction.findOneAndUpdate(
-      { clientId: req.params.id },
+      { clientId: req.params.id, userId: req.userId },
       { ...rest },
       { returnDocument: 'after', runValidators: true }
     );
@@ -140,7 +140,7 @@ router.put('/:id', async (req, res) => {
 // ─── DELETE /api/transactions (bulk — clear all) ───────────────────────────
 router.delete('/', async (req, res) => {
   try {
-    const result = await Transaction.deleteMany({});
+    const result = await Transaction.deleteMany({ userId: req.userId });
     res.json({ success: true, deletedCount: result.deletedCount });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
@@ -150,7 +150,7 @@ router.delete('/', async (req, res) => {
 // ─── DELETE /api/transactions/:id ─────────────────────────────────────────
 router.delete('/:id', async (req, res) => {
   try {
-    const doc = await Transaction.findOneAndDelete({ clientId: req.params.id });
+    const doc = await Transaction.findOneAndDelete({ clientId: req.params.id, userId: req.userId });
     if (!doc) return res.status(404).json({ success: false, error: 'Transaction not found' });
     res.json({ success: true, data: toClient(doc) });
   } catch (err) {

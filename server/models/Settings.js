@@ -6,8 +6,12 @@ import mongoose from 'mongoose';
 
 const SettingsSchema = new mongoose.Schema(
   {
-    // Singleton key — always "default"
-    key: { type: String, default: 'default', unique: true },
+    // User association
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      unique: true, // One settings document per user
+    },
 
     baseCurrency: { type: String, default: 'INR' },
     theme:        { type: String, enum: ['dark', 'light'], default: 'dark' },
