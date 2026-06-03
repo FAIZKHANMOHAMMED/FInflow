@@ -1,6 +1,8 @@
 /**
  * App.jsx — Root application component
  */
+import { useState } from 'react';
+import { Zap } from 'lucide-react';
 import { useApp } from './context/AppContext';
 
 // Layout
@@ -15,6 +17,7 @@ import TrendChart from './components/dashboard/TrendChart';
 // Transactions
 import TransactionList from './components/transactions/TransactionList';
 import TransactionForm from './components/transactions/TransactionForm';
+import BulkEntryPanel from './components/transactions/BulkEntryPanel';
 
 // Settings
 import SettingsPage from './components/settings/SettingsPage';
@@ -76,6 +79,8 @@ function DashboardPage() {
 // ─── Transactions Page ────────────────────────────────────────────────────────
 
 function TransactionsPage() {
+  const [bulkMode, setBulkMode] = useState(false);
+
   return (
     <div className="space-y-6 transition-page">
       <div className="flex items-center justify-between flex-wrap gap-4">
@@ -87,11 +92,33 @@ function TransactionsPage() {
             All your income, expenses and transfers
           </p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
           <ThemeToggle />
+          {/* Bulk entry toggle */}
+          <button
+            onClick={() => setBulkMode((b) => !b)}
+            title={bulkMode ? 'Close bulk entry' : 'Quick bulk entry'}
+            className={`
+              hidden md:flex items-center gap-1.5 px-3 py-2.5 rounded-xl text-sm font-bold
+              border transition-all duration-200 cursor-pointer
+              ${bulkMode
+                ? 'bg-violet-600 text-white border-violet-500 shadow-lg shadow-violet-500/30'
+                : 'bg-white/60 dark:bg-surface-800/60 text-surface-600 dark:text-surface-300 border-white/50 dark:border-surface-600/30 hover:bg-white/90 dark:hover:bg-surface-700/80'
+              }
+            `}
+          >
+            <Zap size={15} className={bulkMode ? 'text-white' : 'text-violet-500'} />
+            {bulkMode ? 'Close Bulk Entry' : 'Bulk Entry'}
+          </button>
           <AddButton />
         </div>
       </div>
+
+      {/* Bulk entry panel */}
+      {bulkMode && (
+        <BulkEntryPanel onClose={() => setBulkMode(false)} />
+      )}
+
       <TransactionList />
     </div>
   );

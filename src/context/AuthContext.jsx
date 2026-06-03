@@ -12,7 +12,7 @@ export function AuthProvider({ children }) {
 
   const fetchSession = async () => {
     try {
-      const res = await fetch('/api/auth/me');
+      const res = await fetch('/api/auth/me', { credentials: 'include' });
       const data = await res.json();
       if (data.success) {
         setUser(data.data);
@@ -38,6 +38,7 @@ export function AuthProvider({ children }) {
       const res = await fetch('/api/auth/google', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',   // ← required so the httpOnly session cookie is stored
         body: JSON.stringify({ credential }),
       });
       const data = await res.json();
@@ -55,7 +56,7 @@ export function AuthProvider({ children }) {
 
   const logout = async () => {
     try {
-      await fetch('/api/auth/logout', { method: 'POST' });
+      await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
       googleLogout();
       setUser(null);
     } catch (err) {
