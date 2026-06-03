@@ -35,6 +35,8 @@ import { useTransactions } from './hooks/useTransactions';
 
 function DashboardPage() {
   const { stats, categoryBreakdown, monthlyTrend, allTransactions } = useTransactions();
+  const { state, dispatch } = useApp();
+  const bulkOpen = state.ui.isBulkOpen;
 
   return (
     <div className="space-y-6 transition-page">
@@ -47,11 +49,32 @@ function DashboardPage() {
             {new Date().toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
           </p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
           <ThemeToggle />
+          {/* Bulk Entry toggle — desktop */}
+          <button
+            onClick={() => dispatch({ type: bulkOpen ? 'CLOSE_BULK' : 'OPEN_BULK' })}
+            title={bulkOpen ? 'Close bulk entry' : 'Quick bulk entry'}
+            className={`
+              flex items-center gap-1.5 px-3 py-2.5 rounded-xl text-sm font-bold
+              border transition-all duration-200 cursor-pointer
+              ${bulkOpen
+                ? 'bg-violet-600 text-white border-violet-500 shadow-lg shadow-violet-500/30'
+                : 'bg-white/60 dark:bg-surface-800/60 text-surface-600 dark:text-surface-300 border-white/50 dark:border-surface-600/30 hover:bg-white/90 dark:hover:bg-surface-700/80'
+              }
+            `}
+          >
+            <Zap size={15} className={bulkOpen ? 'text-white' : 'text-violet-500'} />
+            <span className="hidden sm:inline">{bulkOpen ? 'Close Bulk' : 'Bulk Entry'}</span>
+          </button>
           <AddButton />
         </div>
       </div>
+
+      {/* Bulk entry panel — shown when isBulkOpen */}
+      {bulkOpen && (
+        <BulkEntryPanel onClose={() => dispatch({ type: 'CLOSE_BULK' })} />
+      )}
 
       {/* Summary cards — always show (even at zero) */}
       <SummaryCards stats={stats} />

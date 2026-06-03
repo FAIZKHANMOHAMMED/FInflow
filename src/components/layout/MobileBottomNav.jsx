@@ -15,7 +15,7 @@ export default function MobileBottomNav() {
   const isBulkOpen = state.ui.isBulkOpen;
   const { logout } = useAuth();
 
-  const onTransactionsPage = activePage === 'transactions';
+  const onDashboard = activePage === 'dashboard';
 
   return (
     <div className="md:hidden fixed bottom-4 left-4 right-4 z-40">
@@ -73,8 +73,8 @@ export default function MobileBottomNav() {
         <Plus size={24} strokeWidth={2.5} />
       </button>
 
-      {/* Bulk Entry pill — only shown on transactions page, floats above nav */}
-      {onTransactionsPage && (
+      {/* Bulk Entry pill — only shown on dashboard, floats above nav */}
+      {onDashboard && (
         <button
           onClick={() => dispatch({ type: isBulkOpen ? 'CLOSE_BULK' : 'OPEN_BULK' })}
           className={`

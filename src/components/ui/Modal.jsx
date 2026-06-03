@@ -35,7 +35,7 @@ export default function Modal({ isOpen, onClose, title, children, size = 'md' })
       role="dialog"
       aria-modal="true"
       aria-label={title}
-      className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-4 animate-fade-in"
+      className="fixed inset-0 z-[100] flex items-end sm:items-start sm:pt-12 justify-center p-4 animate-fade-in overflow-y-auto"
     >
       {/* Backdrop */}
       <div
@@ -43,9 +43,9 @@ export default function Modal({ isOpen, onClose, title, children, size = 'md' })
         onClick={onClose}
       />
 
-      {/* Panel */}
+      {/* Panel — anchored to top so content growth goes downward, not shifting the whole modal */}
       <div className={`
-        relative w-full ${sizeClasses[size]} max-h-[85dvh] overflow-y-auto overscroll-contain
+        relative w-full ${sizeClasses[size]} my-auto sm:my-0 sm:mb-8 max-h-[92dvh] sm:max-h-[88dvh] overflow-y-auto overscroll-contain
         glass-panel shadow-2xl
         animate-slide-up
       `}>
