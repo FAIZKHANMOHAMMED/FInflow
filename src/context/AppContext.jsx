@@ -28,6 +28,7 @@ const initialState = {
   ui: {
     activePage:          'dashboard',
     isFormOpen:          false,
+    isBulkOpen:          false,
     editingTransaction:  null,
     toast:               null,
     // API connection status: 'connecting' | 'online' | 'offline' | 'error'
@@ -77,10 +78,16 @@ function reducer(state, action) {
       return { ...state, ui: { ...state.ui, activePage: action.payload } };
 
     case 'OPEN_FORM':
-      return { ...state, ui: { ...state.ui, isFormOpen: true, editingTransaction: action.payload ?? null } };
+      return { ...state, ui: { ...state.ui, isFormOpen: true, isBulkOpen: false, editingTransaction: action.payload ?? null } };
 
     case 'CLOSE_FORM':
       return { ...state, ui: { ...state.ui, isFormOpen: false, editingTransaction: null } };
+
+    case 'OPEN_BULK':
+      return { ...state, ui: { ...state.ui, isBulkOpen: true, activePage: 'transactions' } };
+
+    case 'CLOSE_BULK':
+      return { ...state, ui: { ...state.ui, isBulkOpen: false } };
 
     case 'SHOW_TOAST':
       return { ...state, ui: { ...state.ui, toast: { id: Date.now(), ...action.payload } } };

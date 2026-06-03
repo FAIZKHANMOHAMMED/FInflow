@@ -1,8 +1,7 @@
 /**
  * App.jsx — Root application component
  */
-import { useState } from 'react';
-import { Zap } from 'lucide-react';
+import { Zap, X } from 'lucide-react';
 import { useApp } from './context/AppContext';
 
 // Layout
@@ -79,7 +78,8 @@ function DashboardPage() {
 // ─── Transactions Page ────────────────────────────────────────────────────────
 
 function TransactionsPage() {
-  const [bulkMode, setBulkMode] = useState(false);
+  const { state, dispatch } = useApp();
+  const bulkOpen = state.ui.isBulkOpen;
 
   return (
     <div className="space-y-6 transition-page">
@@ -94,29 +94,29 @@ function TransactionsPage() {
         </div>
         <div className="flex items-center gap-2">
           <ThemeToggle />
-          {/* Bulk entry toggle — visible on all screen sizes */}
+          {/* Bulk entry toggle — desktop header button */}
           <button
-            onClick={() => setBulkMode((b) => !b)}
-            title={bulkMode ? 'Close bulk entry' : 'Quick bulk entry'}
+            onClick={() => dispatch({ type: bulkOpen ? 'CLOSE_BULK' : 'OPEN_BULK' })}
+            title={bulkOpen ? 'Close bulk entry' : 'Quick bulk entry'}
             className={`
               flex items-center gap-1.5 px-3 py-2.5 rounded-xl text-sm font-bold
               border transition-all duration-200 cursor-pointer
-              ${bulkMode
+              ${bulkOpen
                 ? 'bg-violet-600 text-white border-violet-500 shadow-lg shadow-violet-500/30'
                 : 'bg-white/60 dark:bg-surface-800/60 text-surface-600 dark:text-surface-300 border-white/50 dark:border-surface-600/30 hover:bg-white/90 dark:hover:bg-surface-700/80'
               }
             `}
           >
-            <Zap size={15} className={bulkMode ? 'text-white' : 'text-violet-500'} />
-            <span className="hidden sm:inline">{bulkMode ? 'Close Bulk Entry' : 'Bulk Entry'}</span>
+            <Zap size={15} className={bulkOpen ? 'text-white' : 'text-violet-500'} />
+            <span className="hidden sm:inline">{bulkOpen ? 'Close Bulk' : 'Bulk Entry'}</span>
           </button>
           <AddButton />
         </div>
       </div>
 
-      {/* Bulk entry panel */}
-      {bulkMode && (
-        <BulkEntryPanel onClose={() => setBulkMode(false)} />
+      {/* Bulk entry panel — shown when isBulkOpen */}
+      {bulkOpen && (
+        <BulkEntryPanel onClose={() => dispatch({ type: 'CLOSE_BULK' })} />
       )}
 
       <TransactionList />

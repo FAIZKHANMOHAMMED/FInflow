@@ -1,18 +1,21 @@
 /** MobileBottomNav.jsx — Mobile sticky bottom navigation + FAB */
-import { LayoutDashboard, List, Settings, Plus, LogOut } from 'lucide-react';
+import { LayoutDashboard, List, Settings, Plus, LogOut, Zap } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { useAuth } from '../../context/AuthContext';
 
 const NAV_ITEMS = [
-  { id: 'dashboard',    label: 'Dashboard',    icon: LayoutDashboard },
-  { id: 'transactions', label: 'History',      icon: List },
-  { id: 'settings',     label: 'Settings',     icon: Settings },
+  { id: 'dashboard',    label: 'Dashboard', icon: LayoutDashboard },
+  { id: 'transactions', label: 'History',   icon: List },
+  { id: 'settings',     label: 'Settings',  icon: Settings },
 ];
 
 export default function MobileBottomNav() {
   const { state, dispatch } = useApp();
   const activePage = state.ui.activePage;
-  const { user, logout } = useAuth();
+  const isBulkOpen = state.ui.isBulkOpen;
+  const { logout } = useAuth();
+
+  const onTransactionsPage = activePage === 'transactions';
 
   return (
     <div className="md:hidden fixed bottom-4 left-4 right-4 z-40">
@@ -55,7 +58,7 @@ export default function MobileBottomNav() {
         </button>
       </nav>
 
-      {/* FAB — floating add button */}
+      {/* FAB — floating add button (single transaction) */}
       <button
         onClick={() => dispatch({ type: 'OPEN_FORM' })}
         className="absolute -top-8 left-1/2 -translate-x-1/2 z-10
@@ -69,6 +72,26 @@ export default function MobileBottomNav() {
       >
         <Plus size={24} strokeWidth={2.5} />
       </button>
+
+      {/* Bulk Entry pill — only shown on transactions page, floats above nav */}
+      {onTransactionsPage && (
+        <button
+          onClick={() => dispatch({ type: isBulkOpen ? 'CLOSE_BULK' : 'OPEN_BULK' })}
+          className={`
+            absolute -top-14 right-0 z-10
+            flex items-center gap-1.5 px-3 py-2 rounded-full text-xs font-bold
+            shadow-lg transition-all duration-200 active:scale-95
+            ${isBulkOpen
+              ? 'bg-violet-600 text-white shadow-violet-500/40 border border-violet-400/50'
+              : 'bg-white dark:bg-surface-800 text-violet-600 dark:text-violet-400 shadow-black/10 dark:shadow-black/40 border border-violet-200 dark:border-violet-800/50'
+            }
+          `}
+          aria-label="Toggle bulk entry"
+        >
+          <Zap size={13} className={isBulkOpen ? 'text-white' : 'text-violet-500'} />
+          {isBulkOpen ? 'Close Bulk' : 'Bulk Entry'}
+        </button>
+      )}
     </div>
   );
 }
