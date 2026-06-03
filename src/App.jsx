@@ -94,12 +94,12 @@ function TransactionsPage() {
         </div>
         <div className="flex items-center gap-2">
           <ThemeToggle />
-          {/* Bulk entry toggle */}
+          {/* Bulk entry toggle — visible on all screen sizes */}
           <button
             onClick={() => setBulkMode((b) => !b)}
             title={bulkMode ? 'Close bulk entry' : 'Quick bulk entry'}
             className={`
-              hidden md:flex items-center gap-1.5 px-3 py-2.5 rounded-xl text-sm font-bold
+              flex items-center gap-1.5 px-3 py-2.5 rounded-xl text-sm font-bold
               border transition-all duration-200 cursor-pointer
               ${bulkMode
                 ? 'bg-violet-600 text-white border-violet-500 shadow-lg shadow-violet-500/30'
@@ -108,7 +108,7 @@ function TransactionsPage() {
             `}
           >
             <Zap size={15} className={bulkMode ? 'text-white' : 'text-violet-500'} />
-            {bulkMode ? 'Close Bulk Entry' : 'Bulk Entry'}
+            <span className="hidden sm:inline">{bulkMode ? 'Close Bulk Entry' : 'Bulk Entry'}</span>
           </button>
           <AddButton />
         </div>
