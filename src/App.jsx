@@ -21,6 +21,9 @@ import BulkEntryPanel from './components/transactions/BulkEntryPanel';
 // Settings
 import SettingsPage from './components/settings/SettingsPage';
 
+// Analytics
+import AnalyticsPage from './components/analytics/AnalyticsPage';
+
 // UI
 import Toast from './components/ui/Toast';
 import EmptyState from './components/ui/EmptyState';
@@ -186,6 +189,7 @@ function AuthenticatedApp() {
         <div className="max-w-5xl mx-auto">
           {activePage === 'dashboard'    && <DashboardPage />}
           {activePage === 'transactions' && <TransactionsPage />}
+          {activePage === 'analytics'    && <AnalyticsPage />}
           {activePage === 'settings'     && <SettingsPage />}
         </div>
       </main>

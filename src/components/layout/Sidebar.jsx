@@ -1,7 +1,7 @@
 /** Sidebar.jsx — Desktop left navigation */
 import {
   LayoutDashboard, List, Settings, PlusCircle,
-  TrendingUp, Wallet, LogOut
+  TrendingUp, Wallet, LogOut, BarChart2
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { useAuth } from '../../context/AuthContext';
@@ -10,6 +10,7 @@ import ThemeToggle from '../ui/ThemeToggle';
 const NAV_ITEMS = [
   { id: 'dashboard',    label: 'Dashboard',     icon: LayoutDashboard },
   { id: 'transactions', label: 'Transactions',  icon: List },
+  { id: 'analytics',    label: 'Analytics',     icon: BarChart2 },
   { id: 'settings',     label: 'Settings',      icon: Settings },
 ];
 

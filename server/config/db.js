@@ -4,6 +4,14 @@
  * Keeps retrying every 5s until Atlas becomes reachable (e.g. after IP whitelist).
  */
 import mongoose from 'mongoose';
+import dns from 'dns';
+
+// Fallback DNS servers to resolve MongoDB Atlas SRV records, bypassing ISP DNS issues (querySrv ECONNREFUSED)
+try {
+  dns.setServers(['8.8.8.8', '1.1.1.1']);
+} catch (err) {
+  console.warn('⚠️ Warning: Failed to configure custom DNS servers for MongoDB connection:', err.message);
+}
 
 const RETRY_DELAY_MS = 5000;
 let attempt = 0;

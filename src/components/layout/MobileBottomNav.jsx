@@ -1,11 +1,12 @@
 /** MobileBottomNav.jsx — Mobile sticky bottom navigation + FAB */
-import { LayoutDashboard, List, Settings, Plus, LogOut, Zap } from 'lucide-react';
+import { LayoutDashboard, List, Settings, Plus, LogOut, Zap, BarChart2 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { useAuth } from '../../context/AuthContext';
 
 const NAV_ITEMS = [
   { id: 'dashboard',    label: 'Dashboard', icon: LayoutDashboard },
   { id: 'transactions', label: 'History',   icon: List },
+  { id: 'analytics',   label: 'Analytics', icon: BarChart2 },
   { id: 'settings',     label: 'Settings',  icon: Settings },
 ];
 
@@ -21,8 +22,8 @@ export default function MobileBottomNav() {
     <div className="md:hidden fixed bottom-4 left-4 right-4 z-40">
       {/* Nav bar */}
       <nav className="glass-panel relative z-0 flex items-center px-1">
-        {/* Render with FAB spacer in middle */}
-        {[NAV_ITEMS[0], NAV_ITEMS[1], null, NAV_ITEMS[2]].map((item, i) => {
+        {/* Render with FAB spacer in middle — items: Dashboard, History, [FAB], Analytics, Settings */}
+        {[NAV_ITEMS[0], NAV_ITEMS[1], null, NAV_ITEMS[2], NAV_ITEMS[3]].map((item, i) => {
           if (item === null) {
             // Spacer for FAB
             return <div key="fab-spacer" className="flex-1" />;
