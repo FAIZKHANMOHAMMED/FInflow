@@ -2,7 +2,7 @@
  * TransactionList.jsx — Grouped-by-date list with DayAnalyticsPanel + pagination
  */
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { useTransactions, PAGE_SIZE } from '../../hooks/useTransactions';
+import { useTransactions } from '../../hooks/useTransactions';
 import TransactionItem from './TransactionItem';
 import FilterBar from './FilterBar';
 import DayAnalyticsPanel from './DayAnalyticsPanel';

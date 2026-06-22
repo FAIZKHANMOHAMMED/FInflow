@@ -2,7 +2,6 @@
  * dataPortability.js — Export (CSV / JSON) and Import (JSON) utilities
  */
 import { formatDisplayDate } from './dates';
-import { formatINR } from './money';
 
 /**
  * Export transactions to a downloadable JSON file

@@ -89,22 +89,7 @@ export default function TransactionForm() {
     }
   }, [isFormOpen, editingTransaction]); // eslint-disable-line
 
-  // Keyboard shortcuts: Ctrl+Enter = save, Ctrl+Shift+Enter = save & add another
-  useEffect(() => {
-    if (!isFormOpen) return;
-    const handler = (e) => {
-      if (e.ctrlKey && e.key === 'Enter') {
-        e.preventDefault();
-        if (e.shiftKey) {
-          handleSaveAndAddAnother();
-        } else {
-          handleSubmit();
-        }
-      }
-    };
-    document.addEventListener('keydown', handler);
-    return () => document.removeEventListener('keydown', handler);
-  }, [isFormOpen, form]); // eslint-disable-line
+
 
   const categories = CATEGORIES[form.type] ?? [];
 
@@ -169,6 +154,23 @@ export default function TransactionForm() {
   // ── Public handlers ──────────────────────────────────────────────────────
   const handleSubmit = (e) => { e?.preventDefault(); doSubmit(false); };
   const handleSaveAndAddAnother = () => doSubmit(true);
+
+  // Keyboard shortcuts: Ctrl+Enter = save, Ctrl+Shift+Enter = save & add another
+  useEffect(() => {
+    if (!isFormOpen) return;
+    const handler = (e) => {
+      if (e.ctrlKey && e.key === 'Enter') {
+        e.preventDefault();
+        if (e.shiftKey) {
+          handleSaveAndAddAnother();
+        } else {
+          handleSubmit();
+        }
+      }
+    };
+    document.addEventListener('keydown', handler);
+    return () => document.removeEventListener('keydown', handler);
+  }, [isFormOpen, form]); // eslint-disable-line
 
   const onFutureConfirm = () => {
     setShowFutureWarning(false);

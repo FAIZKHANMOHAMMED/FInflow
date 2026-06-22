@@ -256,18 +256,26 @@ export function AppProvider({ children }) {
 
   // ── Action: Import transactions ────────────────────────────────────────────
   const importTransactions = useCallback(async (txns) => {
-    dispatch({ type: 'IMPORT_TRANSACTIONS', payload: txns });
-    dispatch({ type: 'SHOW_TOAST', payload: { message: `Imported ${txns.length} transactions`, type: 'success' } });
+    const existingIds = new Set(state.transactions.map((t) => t.id));
+    const newOnes = txns.filter((t) => !existingIds.has(t.id));
 
-    // Sync each to MongoDB in parallel (fire-and-forget)
+    if (newOnes.length === 0) {
+      dispatch({ type: 'SHOW_TOAST', payload: { message: 'No new transactions to import', type: 'info' } });
+      return;
+    }
+
+    dispatch({ type: 'IMPORT_TRANSACTIONS', payload: newOnes });
+    dispatch({ type: 'SHOW_TOAST', payload: { message: `Imported ${newOnes.length} transactions`, type: 'success' } });
+
+    // Sync each new transaction to MongoDB in parallel (fire-and-forget)
     if (state.ui.apiStatus !== 'offline') {
-      for (const txn of txns) {
+      for (const txn of newOnes) {
         api.createTransaction(txn).catch((err) =>
           console.warn(`Failed to sync imported txn ${txn.id}:`, err.message)
         );
       }
     }
-  }, [state.ui.apiStatus]);
+  }, [state.transactions, state.ui.apiStatus]);
 
   // ── Action: Clear all ──────────────────────────────────────────────────────
   const clearAllData = useCallback(async () => {

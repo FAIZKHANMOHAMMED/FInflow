@@ -1,7 +1,7 @@
 /**
  * ApiStatusBanner.jsx — Shows a banner when the API is offline / connecting
  */
-import { Wifi, WifiOff, Loader2, CheckCircle2 } from 'lucide-react';
+import { WifiOff, Loader2, CheckCircle2 } from 'lucide-react';
 
 const STATUS_CONFIG = {
   online: {

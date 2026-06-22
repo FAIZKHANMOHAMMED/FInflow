@@ -15,6 +15,8 @@ export const CATEGORIES = {
     { id: 'subscriptions', label: 'Subscriptions',      icon: '📱', color: '#a855f7' },
     { id: 'insurance',     label: 'Insurance',          icon: '🛡️', color: '#0ea5e9' },
     { id: 'investment',    label: 'Investments',        icon: '📈', color: '#22c55e' },
+    { id: 'personal_care', label: 'Personal Care',      icon: '🧴', color: '#f472b6' },
+    { id: 'general',       label: 'General / Other',   icon: '⚙️', color: '#78716c' },
     { id: 'other_exp',     label: 'Other Expense',     icon: '📦', color: '#94a3b8' },
   ],
   income: [
@@ -41,8 +43,10 @@ export const ALL_CATEGORIES = [
   ...CATEGORIES.transfer,
 ];
 
-export const getCategoryById = (id) =>
-  ALL_CATEGORIES.find((c) => c.id === id) ?? { id, label: id, icon: '📦', color: '#94a3b8' };
+export const getCategoryById = (id) => {
+  const normId = id === 'groceries' ? 'grocery' : id;
+  return ALL_CATEGORIES.find((c) => c.id === normId) ?? { id, label: id, icon: '📦', color: '#94a3b8' };
+};
 
 export const PAYMENT_METHODS = [
   { id: 'cash',       label: 'Cash',         icon: '💵' },

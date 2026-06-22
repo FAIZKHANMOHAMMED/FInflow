@@ -19,7 +19,7 @@ export function AuthProvider({ children }) {
       } else {
         setUser(null);
       }
-    } catch (err) {
+    } catch {
       setUser(null);
     } finally {
       setIsLoadingAuth(false);
@@ -47,7 +47,7 @@ export function AuthProvider({ children }) {
         return { success: true };
       }
       return { success: false, error: data.error };
-    } catch (err) {
+    } catch {
       return { success: false, error: 'Network error during login' };
     } finally {
       setIsLoggingIn(false);

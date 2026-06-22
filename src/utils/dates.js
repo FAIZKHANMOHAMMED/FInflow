@@ -3,7 +3,7 @@
  * Problem: new Date("2026-06-01") parses as UTC midnight, which in IST (+5:30)
  * becomes May 31 23:30 — showing the wrong date. We always use LOCAL time.
  */
-import { format, parseISO, isToday, isYesterday, startOfDay, endOfDay, subMonths, startOfMonth, endOfMonth } from 'date-fns';
+import { format, isToday, isYesterday, startOfDay, endOfDay, subMonths, startOfMonth, endOfMonth } from 'date-fns';
 
 /**
  * Serialize a Date object to a LOCAL ISO string (not UTC).
